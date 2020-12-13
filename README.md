@@ -4,6 +4,8 @@
 
 ## Технологии
  * NODE JS
+ * Express NODE JS
+ * MongoDB
 
 ## Ссылка на сайт github pages 
 https://github.com/natalja1912/news-explorer-api
