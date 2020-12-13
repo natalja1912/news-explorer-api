@@ -8,7 +8,7 @@ const ConflictError = require('../errors/conflict-err');
 const BadRequestError = require('../errors/bad-request');
 
 const { JWT_SECRET = 'eb28135ebcfc17578f96d4d65b6c7871f2c803be4180c165061d5c2db621c51b' } = process.env;
-const SALT_ROUND = 10;
+const { SALT_ROUND = 10 } = process.env;
 
 // eslint-disable-next-line func-names
 // eslint-disable-next-line consistent-return
@@ -39,7 +39,7 @@ module.exports.createUser = (req, res, next) => {
       if (user) {
         throw new ConflictError('Такой email уже существует');
       }
-      return bcrypt.hash(req.body.password, SALT_ROUND)
+      return bcrypt.hash(req.body.password, Number(SALT_ROUND))
         .then((hash) => User.create({
           email: req.body.email,
           password: hash,
