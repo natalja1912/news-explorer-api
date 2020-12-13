@@ -21,12 +21,19 @@ module.exports.createArticle = async (req, res, next) => {
     if (!item) {
       throw new NotFoundError('Карточка не была создана, попробуйте еще раз');
     }
-    return res.status(200).send({ data: item });
+    return res.status(200).send({
+      keyword: item.keyword,
+      title: item.title,
+      text: item.text,
+      date: item.date,
+      source: item.source,
+      image: item.image,
+    });
   } catch (err) {
     const ERROR_CODE = 400;
     if (err.name === 'ValidationError') {
       err.statusCode = ERROR_CODE;
-      err.message = `message: ${Object.values(err.errors)}`;
+      err.message = `message: ${Object.values(err.errors).map((error) => (error.message)).join(', ')}`;
     }
     next(err);
   }
@@ -37,7 +44,7 @@ module.exports.deleteArticle = async (req, res, next) => {
   const owner = req.user._id;
   const id = req.params.articleId;
   try {
-    const item = await Article.findOne({ _id: id });
+    const item = await Article.findOne({ _id: id }).select('+owner');
     if (!item) {
       throw new NotFoundError('Карточка не была найдена, попробуйте еще раз');
     }

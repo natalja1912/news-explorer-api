@@ -4,12 +4,17 @@ const { ObjectId } = require('mongoose').Types;
 
 const validateArticleId = celebrate({
   params: Joi.object().keys({
-    artileId: Joi.string().required().custom((value, helpers) => {
-      if (ObjectId.isValid(value)) {
-        return value;
-      }
-      return helpers.message('Невалидный id');
-    }),
+    articleId: Joi.string().required().min(24).max(24)
+      .custom((value, helpers) => {
+        if (ObjectId.isValid(value)) {
+          return value;
+        }
+        return helpers.message('Невалидный id');
+      })
+      .messages({
+        'string.min': 'Article Id должен содержать не менее 24 символов',
+        'string.max': 'Article Id должен содержать не более 24 символов',
+      }),
   }),
 });
 
@@ -24,6 +29,7 @@ const validateLogin = celebrate({
       }),
     password: Joi.string().required().min(8)
       .messages({
+        'string.min': 'Поле password должно содержать не менее 8 символов',
         'any.required': 'Поле password должно быть заполнено',
       }),
   }),
@@ -40,13 +46,14 @@ const validateRegistration = celebrate({
       }),
     password: Joi.string().required().min(8)
       .messages({
+        'string.min': 'Поле password должно содержать не менее 8 символов',
         'any.required': 'Поле password должно быть заполнено',
       }),
     name: Joi.string().min(2).max(30)
       .messages({
-        'string.min': 'Поле password должно содержать не менее 2 символов',
-        'string.max': 'Поле password должно содержать не более 30 символов',
-        'any.required': 'Поле password должно быть заполнено',
+        'string.min': 'Поле name должно содержать не менее 2 символов',
+        'string.max': 'Поле name должно содержать не более 30 символов',
+        'any.required': 'Поле name должно быть заполнено',
       }),
   }),
 });

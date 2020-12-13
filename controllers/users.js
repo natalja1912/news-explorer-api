@@ -7,8 +7,8 @@ const AuthError = require('../errors/auth-err');
 const ConflictError = require('../errors/conflict-err');
 const BadRequestError = require('../errors/bad-request');
 
-const { SALT_ROUND = 10 } = process.env;
 const { JWT_SECRET = 'eb28135ebcfc17578f96d4d65b6c7871f2c803be4180c165061d5c2db621c51b' } = process.env;
+const SALT_ROUND = 10;
 
 // eslint-disable-next-line func-names
 // eslint-disable-next-line consistent-return
@@ -51,7 +51,14 @@ module.exports.createUser = (req, res, next) => {
           }
           const token = jwt.sign({ _id: userData._id }, JWT_SECRET, { expiresIn: '7d' });
           // eslint-disable-next-line max-len
-          return res.status(200).send({ userData, token: token.toString() });
+          return res
+            .cookie('jwt', token, {
+              maxAge: 1000 * 60 * 60 * 24 * 7,
+              httpOnly: true,
+              sameSite: true,
+            })
+            // eslint-disable-next-line max-len
+            .status(200).send({ email: userData.email, name: userData.name, token: token.toString() });
         })
         .catch((err) => {
           const ERROR_CODE = 400;
@@ -59,7 +66,7 @@ module.exports.createUser = (req, res, next) => {
             // eslint-disable-next-line no-param-reassign
             err.statusCode = ERROR_CODE;
             // eslint-disable-next-line no-param-reassign
-            err.message = `message: ${Object.values(err.errors)}`;
+            err.message = `message: ${Object.values(err.errors).map((error) => (error.message)).join(', ')}`;
           }
           next(err);
         });
@@ -85,7 +92,13 @@ module.exports.login = (req, res, next) => {
             throw new AuthError('Неправильные почта или пароль');
           }
           const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' });
-          return res.send({ token });
+          return res
+            .cookie('jwt', token, {
+              maxAge: 1000 * 60 * 60 * 24 * 7,
+              httpOnly: true,
+              sameSite: true,
+            })
+            .send({ token });
         })
         .catch((err) => {
           next(err);
