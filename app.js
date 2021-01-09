@@ -25,9 +25,13 @@ mongoose.connect((NODE_ENV === 'production' ? MONGO_URL : mongo), {
   useUnifiedTopology: true,
 });
 
+const corsOptions = {
+  credentials: true,
+};
+
 app.use(requestLogger);
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.use(limiter);
 
