@@ -27,6 +27,7 @@ const getProfile = (req, res, next) => {
       if (!user) {
         throw new AuthError(notFoundUserError);
       }
+      res.set('Access-Control-Allow-Origin', '*');
       return res.status(200).send({ data: user });
     })
     .catch((err) => {
