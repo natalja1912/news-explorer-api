@@ -55,13 +55,10 @@ const createUser = (req, res, next) => {
           if (!userData) {
             throw new NotFoundError(userNotCreatedError);
           }
-          const token = jwt.sign({ _id: userData._id }, (NODE_ENV === 'production' ? JWT_SECRET : jwtSecret), { expiresIn: '7d' });
+          const token = jwt.sign({ _id: userData._id }, (NODE_ENV === 'production' ? JWT_SECRET : jwtSecret), { expiresIn: '6d' });
           return res
             .cookie('jwt', token, {
               maxAge: 1000 * 60 * 60 * 24 * 6,
-              httpOnly: true,
-              sameSite: 'None',
-              secure: true,
             })
             .status(200).send({
               email: userData.email,
