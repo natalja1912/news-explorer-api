@@ -60,7 +60,7 @@ const createUser = (req, res, next) => {
             .cookie('jwt', token, {
               maxAge: 1000 * 60 * 60 * 24 * 7,
               httpOnly: true,
-              sameSite: true,
+              sameSite: 'None',
             })
             .status(200).send({
               email: userData.email,
