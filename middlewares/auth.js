@@ -19,7 +19,7 @@ module.exports = (req, res, next) => {
   } catch (err) {
     return res
       .status(401)
-      .send({ message: token });
+      .send({ message: req });
   }
 
   req.user = payload;
