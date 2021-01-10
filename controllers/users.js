@@ -59,6 +59,8 @@ const createUser = (req, res, next) => {
           return res
             .cookie('jwt', token, {
               maxAge: 1000 * 60 * 60 * 24 * 6,
+              sameSite: 'None',
+              secure: true,
             })
             .status(200).send({
               email: userData.email,
@@ -94,6 +96,8 @@ const login = (req, res, next) => {
           return res
             .cookie('jwt', token, {
               maxAge: 1000 * 60 * 60 * 24 * 6,
+              sameSite: 'None',
+              secure: true,
             })
             .send({ token });
         })
