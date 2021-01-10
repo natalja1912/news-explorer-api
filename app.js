@@ -28,7 +28,7 @@ mongoose.connect((NODE_ENV === 'production' ? MONGO_URL : mongo), {
 
 const corsOptions = {
   credentials: true,
-  origin: 'http://localhost:3000',
+  origin: ['http://localhost:3000', 'https://news-reader.students.nomoredomains.rocks'],
 };
 
 app.use(requestLogger);
