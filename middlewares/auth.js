@@ -19,7 +19,7 @@ module.exports = (req, res, next) => {
   } catch (err) {
     return res
       .status(401)
-      .send({ message: authorizationNeededError });
+      .send({ message: token });
   }
 
   req.user = payload;
