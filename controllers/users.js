@@ -58,7 +58,7 @@ const createUser = (req, res, next) => {
           const token = jwt.sign({ _id: userData._id }, (NODE_ENV === 'production' ? JWT_SECRET : jwtSecret), { expiresIn: '7d' });
           return res
             .cookie('jwt', token, {
-              maxAge: 1000 * 60 * 60 * 24 * 7,
+              maxAge: 1000 * 60 * 60 * 24 * 6,
               httpOnly: true,
               sameSite: 'None',
               secure: true,
