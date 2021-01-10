@@ -9,7 +9,7 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 module.exports = (req, res, next) => {
   const token = req.cookies.jwt;
   if (!token) {
-    throw new AuthError(authorizationNeededError);
+    throw new AuthError(req);
   }
 
   let payload;
@@ -19,7 +19,7 @@ module.exports = (req, res, next) => {
   } catch (err) {
     return res
       .status(401)
-      .send({ message: req });
+      .send({ message: authorizationNeededError });
   }
 
   req.user = payload;
