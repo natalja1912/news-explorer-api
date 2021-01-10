@@ -18,6 +18,7 @@ const {
 } = require('../utils/constants');
 
 const getProfile = (req, res, next) => {
+  console.log(req);
   if (!req.user) {
     throw new AuthError(notFoundUserError);
   }

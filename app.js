@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
@@ -27,11 +28,14 @@ mongoose.connect((NODE_ENV === 'production' ? MONGO_URL : mongo), {
 
 const corsOptions = {
   credentials: true,
+  origin: 'http://localhost:3000',
 };
 
 app.use(requestLogger);
 
 app.use(cors(corsOptions));
+
+app.use(cookieParser());
 
 app.use(limiter);
 
