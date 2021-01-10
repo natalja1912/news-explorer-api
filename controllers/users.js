@@ -61,6 +61,7 @@ const createUser = (req, res, next) => {
               maxAge: 1000 * 60 * 60 * 24 * 7,
               httpOnly: true,
               sameSite: 'None',
+              secure: true,
             })
             .status(200).send({
               email: userData.email,
