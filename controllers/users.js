@@ -111,7 +111,7 @@ const login = (req, res, next) => {
 
 function logout(req, res) {
   return res
-    .cookie('jwt', '')
+    .clearCookie('jwt')
     .status(200).send({
       message: 'Пользователь вышел из сети',
     });
