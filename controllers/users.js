@@ -18,7 +18,6 @@ const {
 } = require('../utils/constants');
 
 const getProfile = (req, res, next) => {
-  console.log(req);
   if (!req.user) {
     throw new AuthError(notFoundUserError);
   }
@@ -59,7 +58,8 @@ const createUser = (req, res, next) => {
           return res
             .cookie('jwt', token, {
               maxAge: 1000 * 60 * 60 * 24 * 6,
-              sameSite: 'None',
+              httpOnly: true,
+              sameSite: 'Strict',
               secure: true,
             })
             .status(200).send({
@@ -96,10 +96,11 @@ const login = (req, res, next) => {
           return res
             .cookie('jwt', token, {
               maxAge: 1000 * 60 * 60 * 24 * 5,
-              sameSite: 'None',
+              httpOnly: true,
+              sameSite: 'Strict',
               secure: true,
             })
-            .send({ token });
+            .send();
         })
         .catch((err) => {
           next(err);
@@ -108,8 +109,17 @@ const login = (req, res, next) => {
     .catch(next);
 };
 
+function logout(req, res) {
+  return res
+    .cookie('jwt', '')
+    .status(200).send({
+      message: 'Пользователь вышел из сети',
+    });
+}
+
 module.exports = {
   getProfile,
   createUser,
   login,
+  logout,
 };
