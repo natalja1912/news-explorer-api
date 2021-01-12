@@ -57,9 +57,8 @@ const createUser = (req, res, next) => {
           const token = jwt.sign({ _id: userData._id }, (NODE_ENV === 'production' ? JWT_SECRET : jwtSecret), { expiresIn: '6d' });
           return res
             .cookie('jwt', token, {
-              maxAge: 1000 * 60 * 60 * 24 * 7,
-              httpOnly: true,
-              sameSite: 'Strict',
+              maxAge: 1000 * 60 * 60 * 24 * 5,
+              sameSite: 'None',
               secure: true,
             })
             .status(200).send({
@@ -95,9 +94,8 @@ const login = (req, res, next) => {
           const token = jwt.sign({ _id: user._id }, (NODE_ENV === 'production' ? JWT_SECRET : jwtSecret), { expiresIn: '6d' });
           return res
             .cookie('jwt', token, {
-              maxAge: 1000 * 60 * 60 * 24 * 7,
-              httpOnly: true,
-              sameSite: 'Strict',
+              maxAge: 1000 * 60 * 60 * 24 * 5,
+              sameSite: 'None',
               secure: true,
             })
             .send();
@@ -112,9 +110,8 @@ const login = (req, res, next) => {
 function logout(req, res) {
   return res
     .cookie('jwt', '', {
-      maxAge: 1000 * 60 * 60 * 24 * 6,
-      httpOnly: true,
-      sameSite: 'Strict',
+      maxAge: 1000 * 60 * 60 * 24 * 5,
+      sameSite: 'None',
       secure: true,
     })
     .status(200).send({
