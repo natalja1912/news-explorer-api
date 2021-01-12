@@ -57,7 +57,7 @@ const createUser = (req, res, next) => {
           const token = jwt.sign({ _id: userData._id }, (NODE_ENV === 'production' ? JWT_SECRET : jwtSecret), { expiresIn: '6d' });
           return res
             .cookie('jwt', token, {
-              maxAge: 1000 * 60 * 60 * 24 * 6,
+              maxAge: 1000 * 60 * 60 * 24 * 7,
               httpOnly: true,
               sameSite: 'Strict',
               secure: true,
@@ -95,7 +95,7 @@ const login = (req, res, next) => {
           const token = jwt.sign({ _id: user._id }, (NODE_ENV === 'production' ? JWT_SECRET : jwtSecret), { expiresIn: '6d' });
           return res
             .cookie('jwt', token, {
-              maxAge: 1000 * 60 * 60 * 24 * 5,
+              maxAge: 1000 * 60 * 60 * 24 * 7,
               httpOnly: true,
               sameSite: 'Strict',
               secure: true,
@@ -111,7 +111,12 @@ const login = (req, res, next) => {
 
 function logout(req, res) {
   return res
-    .clearCookie('jwt')
+    .cookie('jwt', '', {
+      maxAge: 1000 * 60 * 60 * 24 * 6,
+      httpOnly: true,
+      sameSite: 'Strict',
+      secure: true,
+    })
     .status(200).send({
       message: 'Пользователь вышел из сети',
     });
