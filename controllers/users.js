@@ -100,7 +100,7 @@ const login = (req, res, next) => {
               sameSite: 'None',
               secure: true,
             })
-            .send(user);
+            .send({ data: user });
         })
         .catch((err) => {
           next(err);
