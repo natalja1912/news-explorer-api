@@ -100,7 +100,7 @@ const login = (req, res, next) => {
               sameSite: 'None',
               secure: true,
             })
-            .send();
+            .send(user);
         })
         .catch((err) => {
           next(err);
@@ -118,7 +118,7 @@ function logout(req, res) {
       secure: true,
     })
     .status(200).send({
-      message: 'Пользователь вышел из сети',
+      message: 'Пользователь разлогинился',
     });
 }
 
