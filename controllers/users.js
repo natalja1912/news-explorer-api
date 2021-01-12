@@ -58,6 +58,7 @@ const createUser = (req, res, next) => {
           return res
             .cookie('jwt', token, {
               maxAge: 1000 * 60 * 60 * 24 * 5,
+              httpOnly: true,
               sameSite: 'None',
               secure: true,
             })
@@ -95,6 +96,7 @@ const login = (req, res, next) => {
           return res
             .cookie('jwt', token, {
               maxAge: 1000 * 60 * 60 * 24 * 5,
+              httpOnly: true,
               sameSite: 'None',
               secure: true,
             })
@@ -111,6 +113,7 @@ function logout(req, res) {
   return res
     .cookie('jwt', '', {
       maxAge: 1000 * 60 * 60 * 24 * 5,
+      httpOnly: true,
       sameSite: 'None',
       secure: true,
     })
