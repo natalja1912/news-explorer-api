@@ -10,9 +10,9 @@ const articleSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Поле title должно быть заполнено'],
   },
-  text: {
+  description: {
     type: String,
-    required: [true, 'Поле text должно быть заполнено'],
+    required: [true, 'Поле description должно быть заполнено'],
   },
   date: {
     type: String,

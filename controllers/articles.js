@@ -13,11 +13,11 @@ const getArticles = (req, res, next) => {
 
 const createArticle = (req, res, next) => {
   const {
-    keyword, title, text, date, source, link, image,
+    keyword, title, description, date, source, link, image,
   } = req.body;
   const owner = req.user._id;
   return Article.create({
-    keyword, title, text, date, source, link, image, owner,
+    keyword, title, description, date, source, link, image, owner,
   })
     .then((item) => {
       if (!item) {
@@ -26,7 +26,7 @@ const createArticle = (req, res, next) => {
       return res.status(200).send({
         keyword: item.keyword,
         title: item.title,
-        text: item.text,
+        description: item.description,
         date: item.date,
         source: item.source,
         link: item.link,
