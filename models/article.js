@@ -10,7 +10,7 @@ const articleSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Поле title должно быть заполнено'],
   },
-  description: {
+  text: {
     type: String,
     required: [true, 'Поле description должно быть заполнено'],
   },
@@ -21,14 +21,6 @@ const articleSchema = new mongoose.Schema({
   source: {
     type: String,
     required: [true, 'Поле source должно быть заполнено'],
-  },
-  link: {
-    type: String,
-    required: [true, 'Поле link должно быть заполнено'],
-    validate: {
-      validator: (v) => validator.isURL(v),
-      message: 'Поле link должно содержать валидный url-адрес',
-    },
   },
   image: {
     type: String,
