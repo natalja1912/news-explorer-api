@@ -6,7 +6,7 @@ const { cardNotCreatedError, cardNotFoundError, cardCreatedByAnotherUser } = req
 
 const getArticles = (req, res, next) => {
   const ownerId = req.user._id;
-  Article.find({ owner: ownerId })
+  Article.find({ owner: ownerId }).select('+owner')
     .then((items) => res.send({ data: items }))
     .catch(next);
 };
