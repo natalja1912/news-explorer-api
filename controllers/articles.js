@@ -5,8 +5,7 @@ const ForbiddenError = require('../errors/bad-request');
 const { cardNotCreatedError, cardNotFoundError, cardCreatedByAnotherUser } = require('../utils/constants');
 
 const getArticles = (req, res, next) => {
-  const ownerId = req.user._id;
-  Article.find({ owner: ownerId }).select('+owner')
+  Article.find({ owner: req.user._id })
     .then((items) => res.send({ data: items }))
     .catch(next);
 };
