@@ -15,10 +15,10 @@ const createArticle = (req, res, next) => {
     keyword, title, text, date, source, link, image,
   } = req.body;
   const owner = req.user._id;
-  Article.findOne({ title, owner: req.user._id })
+  Article.findOne({ title, owner })
     .then((card) => {
       if (card) {
-        return res.status(409).send({ message: 'Карточка уже была сохранена' });
+        return res.status(409).send({ message: card });
       }
       return Article.create({
         keyword, title, text, date, source, link, image, owner,
