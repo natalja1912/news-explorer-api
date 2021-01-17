@@ -30,6 +30,14 @@ const articleSchema = new mongoose.Schema({
       message: 'Поле image должно содержать валидный url-адрес',
     },
   },
+  link: {
+    type: String,
+    required: [true, 'Поле image должно быть заполнено'],
+    validate: {
+      validator: (v) => validator.isURL(v),
+      message: 'Поле image должно содержать валидный url-адрес',
+    },
+  },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',

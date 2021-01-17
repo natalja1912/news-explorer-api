@@ -16,29 +16,36 @@ const createArticle = (req, res, next) => {
     keyword, title, text, date, source, link, image,
   } = req.body;
   const owner = req.user._id;
-  return Article.create({
-    keyword, title, text, date, source, link, image, owner,
-  })
-    .then((item) => {
-      if (!item) {
-        throw new NotFoundError(cardNotCreatedError);
+  Article.findOne({ title }).select('+owner')
+    .then((card) => {
+      if (card) {
+        return res.status(409).send({ message: 'Карточка уже была сохранена' });
       }
-      return res.status(200).send({
-        keyword: item.keyword,
-        title: item.title,
-        text: item.text,
-        date: item.date,
-        source: item.source,
-        link: item.link,
-        image: item.image,
-      });
+      return Article.create({
+        keyword, title, text, date, source, link, image, owner,
+      })
+        .then((item) => {
+          if (!item) {
+            throw new NotFoundError(cardNotCreatedError);
+          }
+          return res.status(200).send({
+            keyword: item.keyword,
+            title: item.title,
+            text: item.text,
+            date: item.date,
+            source: item.source,
+            link: item.link,
+            image: item.image,
+          });
+        })
+        .catch((err) => {
+          if (err.name === 'ValidationError') {
+            throw new BadRequestError(`message: ${Object.values(err.errors).map((error) => (error.message)).join(', ')}`);
+          }
+          next(err);
+        });
     })
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        throw new BadRequestError(`message: ${Object.values(err.errors).map((error) => (error.message)).join(', ')}`);
-      }
-      next(err);
-    });
+    .catch((err) => next(err));
 };
 
 const deleteArticle = async (req, res, next) => {
