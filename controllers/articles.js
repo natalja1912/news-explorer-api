@@ -18,7 +18,7 @@ const createArticle = (req, res, next) => {
   Article.findOne({ title, owner })
     .then((card) => {
       if (card) {
-        return res.status(409).send({ message: card });
+        return res.status(409).send({ message: 'Карточка уже была сохранена' });
       }
       return Article.create({
         keyword, title, text, date, source, link, image, owner,
